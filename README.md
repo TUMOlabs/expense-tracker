@@ -6,7 +6,7 @@ An app which lets you to track your expenses.
 
 This document contains everything you need to get up and running. Please read it carefully before asking questions.
 
-## Prrerequisites
+## Prerequisites
 
 Before you start, ensure you have the following installed:
 
