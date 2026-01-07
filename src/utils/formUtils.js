@@ -1,5 +1,7 @@
-import { createMeeting, deleteMeeting, getMeetingById, updateMeeting } from "./queries";
+import { create, getByID, remove, update } from "./storageUtils";
 import { getDateFromString } from "./timeUtils";
+
+const STORAGE_KEY = "expense_tracker_transactions";
 
 const getHighestZIndex = (id) => {
     let max = 0;
@@ -28,7 +30,7 @@ export const getFormData = (form) => {
 
 const populateForm = (form, transactionId) => {
     try {
-        const data = getMeetingById(transactionId);
+        const data = getByID(STORAGE_KEY, transactionId);
         const date = getDateFromString(data.date);
 
         form.title.value = data.title;
@@ -57,20 +59,19 @@ export const openForm = (form, newForm, transactionId = "") => {
 export const saveFormData = (form, newForm, transactionId) => {
     const formData = getFormData(form);
     const date = new Date(formData.date).toISOString();
-    console.log("save", date);
     const data = {
         ...formData,
         date,
     };
     if (newForm) {
         try {
-            createMeeting(data);
+            create(STORAGE_KEY, data);
         } catch (error) {
             console.log(error);
         }
     } else {
         try {
-            updateMeeting(transactionId, data);
+            update(STORAGE_KEY, transactionId, data);
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +96,7 @@ export const editFormData = (form) => {
 
 export const deleteFormData = (form, transactionId) => {
     try {
-        deleteMeeting(transactionId);
+        remove(STORAGE_KEY, transactionId);
     } catch (error) {
         console.log(error);
     }
