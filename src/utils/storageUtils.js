@@ -24,7 +24,7 @@ export function getByID(key, id) {
 
 export function create(key, item) {
     const items = read(key);
-    items.push(item);
+    items.push({ id: crypto.randomUUID(), ...item });
     write(key, items);
     return item;
 }
