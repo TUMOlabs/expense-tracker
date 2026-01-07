@@ -9,9 +9,153 @@
     </head>
     <body>
         <main id="app">
-            <header>header</header>
+            <header>
+                <button id="add-transaction-btn">Add New Transaction</button>
+                <div
+                    id="view-transaction-btn"
+                    data-id="48f01ccb-d8fe-4f35-85bd-ce40094f594a"
+                    style="display: inline; border: 1px solid green"
+                >
+                    View Transaction (test)
+                </div>
+            </header>
             <article>main content</article>
-            <aside id="sidebar">sidebar</aside>
+            <aside id="sidebar">
+                <!-- CREATE FORM -->
+                <form id="add-transaction-form" hidden>
+                    <fieldset>
+                        <legend>Title</legend>
+                        <input
+                            id="add-transaction-title"
+                            name="title"
+                            class="transaction-title"
+                            type="text"
+                            required
+                        />
+                    </fieldset>
+                    <fieldset>
+                        <legend>Date</legend>
+                        <input id="add-transaction-date" name="date" type="date" required />
+                    </fieldset>
+                    <fieldset>
+                        <legend>Type</legend>
+                        <div>
+                            <input
+                                id="add-transaction-expense"
+                                type="radio"
+                                value="expense"
+                                name="type"
+                                checked
+                            />
+                            <label for="add-transaction-expense">Expense</label>
+                        </div>
+                        <div>
+                            <input
+                                id="add-transaction-income"
+                                type="radio"
+                                value="income"
+                                name="type"
+                            />
+                            <label for="add-transaction-income">Income</label>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Amount</legend>
+                        <input
+                            id="add-transaction-amount"
+                            name="amount"
+                            class="transaction-amount"
+                            type="text"
+                            required
+                        />
+                        <select
+                            id="add-transaction-currency"
+                            name="currency"
+                            class="transaction-currency"
+                            required
+                        >
+                            <option value="amd" selected>AMD</option>
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                        </select>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Description</legend>
+                        <textarea id="add-transaction-description" name="description"></textarea>
+                    </fieldset>
+                    <button id="add-transaction-save-btn" type="button">Save</button>
+                    <button id="add-transaction-cancel-btn" type="button">Cancel</button>
+                </form>
+                <!-- VIEW FORM -->
+                <form id="view-transaction-form" hidden>
+                    <fieldset disabled>
+                        <legend>Title</legend>
+                        <input
+                            id="view-transaction-title"
+                            name="title"
+                            class="transaction-title"
+                            type="text"
+                            required
+                        />
+                    </fieldset>
+                    <fieldset disabled>
+                        <legend>Date</legend>
+                        <input id="view-transaction-date" name="date" type="date" required />
+                    </fieldset>
+                    <fieldset disabled>
+                        <legend>Type</legend>
+                        <div>
+                            <input
+                                id="view-transaction-expense"
+                                type="radio"
+                                value="expense"
+                                name="type"
+                                required
+                                checked
+                            />
+                            <label for="view-transaction-expense">Expense</label>
+                        </div>
+                        <div>
+                            <input
+                                id="view-transaction-income"
+                                type="radio"
+                                value="income"
+                                required
+                                name="type"
+                            />
+                            <label for="view-transaction-income">Income</label>
+                        </div>
+                    </fieldset>
+                    <fieldset disabled>
+                        <legend>Amount</legend>
+                        <input
+                            id="view-transaction-amount"
+                            name="amount"
+                            class="transaction-amount"
+                            type="text"
+                            required
+                        />
+                        <select
+                            id="view-transaction-currency"
+                            name="currency"
+                            class="transaction-currency"
+                            required
+                        >
+                            <option value="amd" selected>AMD</option>
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                        </select>
+                    </fieldset>
+                    <fieldset disabled>
+                        <legend>Description</legend>
+                        <textarea id="view-transaction-description" name="description"></textarea>
+                    </fieldset>
+                    <button id="view-transaction-save-btn" type="button">Save</button>
+                    <button id="view-transaction-edit-btn" type="button">Edit</button>
+                    <button id="view-transaction-delete-btn" type="button">Delete</button>
+                    <button id="view-transaction-cancel-btn" type="button">Cancel</button>
+                </form>
+            </aside>
             <footer>footer</footer>
         </main>
         <script type="module" src="./src/index.js"></script>
