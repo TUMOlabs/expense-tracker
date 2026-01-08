@@ -1,3 +1,4 @@
+import { addTransactionToList } from "./addTransaction";
 import { create, getByID, remove, update } from "./storageUtils";
 import { getDateFromString } from "./timeUtils";
 
@@ -50,13 +51,14 @@ export const openForm = (form, newForm, transactionId = "") => {
     form.hidden = false;
 
     if (!newForm) {
+        form.dataset.activeId = transactionId;
         populateForm(form, transactionId);
     } else {
         form.querySelector(".transaction-title").focus();
     }
 };
 
-export const saveFormData = (form, newForm, transactionId) => {
+export const saveFormData = (form, newForm) => {
     const formData = getFormData(form);
     const date = new Date(formData.date).toISOString();
     const data = {
@@ -65,12 +67,14 @@ export const saveFormData = (form, newForm, transactionId) => {
     };
     if (newForm) {
         try {
-            create(STORAGE_KEY, data);
+            const newTransaction = create(STORAGE_KEY, data);
+            addTransactionToList(newTransaction);
         } catch (error) {
             console.log(error);
         }
     } else {
         try {
+            const transactionId = form.dataset.activeId;
             update(STORAGE_KEY, transactionId, data);
         } catch (error) {
             console.log(error);

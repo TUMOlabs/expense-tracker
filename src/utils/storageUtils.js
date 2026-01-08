@@ -24,9 +24,10 @@ export function getByID(key, id) {
 
 export function create(key, item) {
     const items = read(key);
-    items.push({ id: crypto.randomUUID(), ...item });
+    const newItem = { id: crypto.randomUUID(), ...item };
+    items.push(newItem);
     write(key, items);
-    return item;
+    return newItem;
 }
 
 export function update(key, id, patch) {
