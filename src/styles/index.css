@@ -132,7 +132,10 @@ textarea {
     resize: none;
 }
 
-.day {
+.transaction-entry {
     border: 1px solid red;
-    background-color: rgba(137, 43, 226, 0.5);
+    background-color: rgba(102, 77, 125, 0.5);
+    display: flex;
+    gap: 1rem;
+    /* flex-direction: row; */
 }
