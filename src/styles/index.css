@@ -66,13 +66,24 @@ h6 {
 /* ********* */
 
 body {
-    border: 1px solid red;
     width: 100vw;
     height: 100vh;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        "Open Sans",
+        "Helvetica Neue",
+        sans-serif;
 }
 
 main {
-    border: 3px solid green;
+    background-color: whitesmoke;
     width: 100%;
     height: 100%;
     display: grid;
@@ -81,43 +92,52 @@ main {
 }
 
 article {
-    border: 3px solid violet;
-    background-color: rgba(97, 64, 104, 0.5);
+    background-color: white;
+    border: 1px solid #aaa;
     grid-row-start: 2;
     grid-row-end: 3;
     grid-column-start: 1;
     grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    overflow-y: scroll;
 }
 
 aside {
-    border: 3px solid orange;
-    background-color: rgba(74, 114, 22, 0.5);
+    background-color: whitesmoke;
     width: max-content;
     display: grid;
-    grid-template-areas: "stack";
     overflow: scroll;
     grid-row-start: 2;
     grid-row-end: 3;
     grid-column-start: 2;
     grid-column-end: 3;
+    margin: 0.5rem;
 }
 
 header {
-    border: 3px solid navy;
-    background-color: rgba(22, 47, 114, 0.5);
+    border: 1px solid #aaa;
+    background-color: white;
     grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 1;
     grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
 }
 
 footer {
-    border: 3px solid brown;
-    background-color: rgba(114, 91, 22, 0.5);
+    border: 1px solid #aaa;
+    background-color: white;
     grid-row-start: 3;
     grid-row-end: 4;
     grid-column-start: 1;
     grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
 }
 
 form {
@@ -125,17 +145,63 @@ form {
     grid-column: 1;
     width: max-content;
     z-index: 100;
-    background-color: #aaa;
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+fieldset {
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 0.3rem;
+    margin-bottom: 0.3rem;
 }
 
 textarea {
     resize: none;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+button {
+    border: 1px solid #aaa;
+    background-color: #ddd;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+    button:hover {
+        background-color: #eee;
+    }
+}
+
+button:active {
+    background-color: #ddd;
+}
+
 .transaction-entry {
-    border: 1px solid red;
-    background-color: rgba(102, 77, 125, 0.5);
-    display: flex;
-    gap: 1rem;
-    /* flex-direction: row; */
+    margin: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.5rem;
+}
+
+.income {
+    border: 1px solid #afa;
+    background-color: #efe;
+}
+
+.expense {
+    border: 1px solid #fcc;
+    background-color: #fee;
 }
