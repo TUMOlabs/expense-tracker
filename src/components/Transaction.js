@@ -15,6 +15,13 @@ export const Transaction = (data) => {
     date.textContent = data.date;
     description.textContent = data.description;
 
+    title.dataset.type = "title";
+    amount.dataset.type = "amount";
+    currency.dataset.type = "currency";
+    type.dataset.type = "type";
+    date.dataset.type = "date";
+    description.dataset.type = "description";
+
     transaction.appendChild(title);
     transaction.appendChild(amount);
     transaction.appendChild(currency);

@@ -1,3 +1,5 @@
+# TO RUN THE APP RENAME **.env.example** to **.env**
+
 # Expense Tracker
 
 An app which lets you to track your expenses.
@@ -32,7 +34,11 @@ Open your terminal and run these commands in order:
     npm install
     ```
 
-3.  **Start the development server:**
+3. **To provide the app with environment variables:**
+
+    rename **`.env.example`** to **`.env`**
+
+4.  **Start the development server:**
 
     ```bash
     npm run dev
@@ -40,11 +46,15 @@ Open your terminal and run these commands in order:
 
     _The app should now be running at `http://localhost:3000`._
 
-4.  **To make sure Vite can successfully bundle the project for production run:**
+5.  **To make sure Vite can successfully bundle the project for production run:**
 
     ```bash
     npm run build
     ```
+
+
+
+## NOTE: Since **`.env.example`** contains no sensitive data, all values are stored in it.
 
 ## Project Structure
 
@@ -129,7 +139,7 @@ Useful if you want to check if you forgot to format a file without actually chan
 
 ## Environment Variables
 
-Define all environment variables in **.env** file.
+Define all environment variables in **`.env`** file.
 
 Any variable you want to use in the frontend must start with **VITE\_**.
 
