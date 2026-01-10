@@ -1,12 +1,12 @@
 export const Transaction = (data) => {
     const transaction = document.createElement("li");
 
-    const title = document.createElement("div");
-    const amount = document.createElement("div");
-    const currency = document.createElement("div");
-    const type = document.createElement("div");
-    const date = document.createElement("div");
-    const description = document.createElement("div");
+    const title = document.createElement("span");
+    const amount = document.createElement("span");
+    const currency = document.createElement("span");
+    const type = document.createElement("span");
+    const date = document.createElement("span");
+    const description = document.createElement("span");
 
     title.textContent = data.title;
     amount.textContent = data.amount;
@@ -29,7 +29,7 @@ export const Transaction = (data) => {
     transaction.appendChild(date);
     transaction.appendChild(description);
 
-    transaction.className = "transaction-entry";
+    transaction.classList.add("transaction-entry", data.type);
     transaction.dataset.id = data.id;
 
     return transaction;
