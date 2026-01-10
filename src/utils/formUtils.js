@@ -1,8 +1,12 @@
-import { addTransactionToList } from "./addTransaction";
 import { create, getByID, remove, update } from "./storageUtils";
 import { getDateFromString } from "./timeUtils";
+import {
+    addTransactionToList,
+    removeTransactionFromList,
+    updateTransactionFields,
+} from "./uiUtils";
 
-const STORAGE_KEY = "expense_tracker_transactions";
+const transactionsKey = import.meta.env.VITE_TRANSACTIONS_KEY;
 
 const getHighestZIndex = (id) => {
     let max = 0;
@@ -29,9 +33,9 @@ export const getFormData = (form) => {
     return data;
 };
 
-const populateForm = (form, transactionId) => {
+const populateForm = (form) => {
     try {
-        const data = getByID(STORAGE_KEY, transactionId);
+        const data = getByID(transactionsKey, form.dataset.id);
         const date = getDateFromString(data.date);
 
         form.title.value = data.title;
@@ -45,52 +49,53 @@ const populateForm = (form, transactionId) => {
     }
 };
 
-export const openForm = (form, newForm, transactionId = "") => {
+export const openForm = (form, transactionId = "") => {
     const maxIndex = getHighestZIndex("#sidebar");
     form.style.zIndex = maxIndex + 1;
     form.hidden = false;
 
-    if (!newForm) {
-        form.dataset.activeId = transactionId;
-        populateForm(form, transactionId);
+    if (transactionId) {
+        // set data-id on the current form
+        form.dataset.id = transactionId;
+        populateForm(form);
     } else {
         form.querySelector(".transaction-title").focus();
     }
 };
 
-export const saveFormData = (form, newForm) => {
+export const saveFormData = (form) => {
     const formData = getFormData(form);
     const date = new Date(formData.date).toISOString();
     const data = {
         ...formData,
         date,
     };
-    if (newForm) {
+    if (!form.dataset.id) {
         try {
-            const newTransaction = create(STORAGE_KEY, data);
+            const newTransaction = create(transactionsKey, data);
             addTransactionToList(newTransaction);
         } catch (error) {
             console.log(error);
         }
     } else {
         try {
-            const transactionId = form.dataset.activeId;
-            update(STORAGE_KEY, transactionId, data);
+            // get transaction id from current form data-id
+            const transactionId = form.dataset.id;
+            update(transactionsKey, transactionId, data);
+            updateTransactionFields(transactionId, data);
+            toggleEdit(form, true);
         } catch (error) {
             console.log(error);
         }
     }
-    closeForm(form, newForm);
+    closeForm(form);
     return data;
 };
 
-export const closeForm = (form, newForm) => {
-    form.reset();
-    if (!newForm) {
-        toggleEdit(form, true);
-    }
+export const closeForm = (form) => {
     form.style.zIndex = 100;
     form.hidden = true;
+    form.reset();
 };
 
 export const editFormData = (form) => {
@@ -98,11 +103,12 @@ export const editFormData = (form) => {
     document.querySelector("#view-transaction-title").focus();
 };
 
-export const deleteFormData = (form, transactionId) => {
+export const deleteFormData = (form) => {
     try {
-        remove(STORAGE_KEY, transactionId);
+        removeTransactionFromList(form.dataset.id);
+        remove(transactionsKey, form.dataset.id);
     } catch (error) {
         console.log(error);
     }
-    closeForm(form, false);
+    closeForm(form);
 };
