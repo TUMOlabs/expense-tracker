@@ -1,4 +1,4 @@
-import { create, getByID, remove, update } from "./storageUtils";
+import { create, getById, remove, update } from "./storageUtils";
 import { getDateFromString } from "./timeUtils";
 import {
     addTransactionToList,
@@ -29,21 +29,35 @@ const toggleEdit = (form, status) => {
 
 export const getFormData = (form) => {
     const formData = new FormData(form);
+
+    const impact = document.querySelector("#view-transaction-impact").innerText;
+    // const flag = document.querySelector("#view-transaction-flag").innerText;
+    const reason = document.querySelector("#view-transaction-reason").innerText;
+
+    // append 'output' form elements
+    formData.append("impact", impact);
+    // formData.append("flag", flag);
+    formData.append("reason", reason);
+
     const data = Object.fromEntries(formData.entries());
     return data;
 };
 
 const populateForm = (form) => {
     try {
-        const data = getByID(transactionsKey, form.dataset.id);
+        const data = getById(transactionsKey, form.dataset.id);
         const date = getDateFromString(data.date);
-
         form.title.value = data.title;
         form.date.value = date;
         form.amount.value = data.amount;
         form.currency.value = data.currency;
         form.description.value = data.description;
         form.type.value = data.type;
+        form.category.value = data.category;
+        form.tag.value = data.tag;
+        // form.flag.value = data.flag;
+        form.reason.value = data.reason;
+        form.impact.value = data.impact;
     } catch (error) {
         console.log(error);
     }
@@ -55,7 +69,7 @@ export const openForm = (form, transactionId = "") => {
     form.hidden = false;
 
     if (transactionId) {
-        // set data-id on the current form
+        // set data-id on the current View form
         form.dataset.id = transactionId;
         populateForm(form);
     } else {
@@ -83,7 +97,6 @@ export const saveFormData = (form) => {
             const transactionId = form.dataset.id;
             update(transactionsKey, transactionId, data);
             updateTransactionFields(transactionId, data);
-            toggleEdit(form, true);
         } catch (error) {
             console.log(error);
         }
@@ -93,6 +106,9 @@ export const saveFormData = (form) => {
 };
 
 export const closeForm = (form) => {
+    if (form.dataset.id) {
+        toggleEdit(form, true);
+    }
     form.style.zIndex = 100;
     form.hidden = true;
     form.reset();
