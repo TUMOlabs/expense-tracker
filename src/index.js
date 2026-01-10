@@ -7,9 +7,13 @@ let currentActiveId = null;
 const renderList = () => {
     const data = getAll(import.meta.env.VITE_TRANSACTIONS_KEY);
     const list = document.querySelector("#transaction-list");
+    const fragment = document.createDocumentFragment();
+
     data.forEach((entry) => {
-        list.appendChild(Transaction(entry));
+        fragment.appendChild(Transaction(entry));
     });
+
+    list.appendChild(fragment);
 };
 
 const init = () => {
@@ -23,6 +27,7 @@ const init = () => {
     const addNewTransaction = document.querySelector("#add-transaction-btn");
     const saveNewTransaction = document.querySelector("#add-transaction-save-btn");
     const cancelNewTransaction = document.querySelector("#add-transaction-cancel-btn");
+
     addNewTransaction.addEventListener("click", () => openForm(addTransactionForm));
     saveNewTransaction.addEventListener("click", () => saveFormData(addTransactionForm));
     cancelNewTransaction.addEventListener("click", () => closeForm(addTransactionForm));

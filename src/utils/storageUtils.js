@@ -17,7 +17,7 @@ export function getAll(key) {
     return read(key);
 }
 
-export function getByID(key, id) {
+export function getById(key, id) {
     const items = read(key);
     return items.find((item) => item.id === id);
 }
