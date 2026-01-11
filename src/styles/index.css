@@ -129,8 +129,12 @@ header {
 }
 
 footer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem;
     border: 1px solid #aaa;
     background-color: white;
+    height: 40vh;
     grid-row-start: 3;
     grid-row-end: 4;
     grid-column-start: 1;

@@ -1,6 +1,8 @@
 import { openForm, closeForm, saveFormData, editFormData, deleteFormData } from "./utils/formUtils";
 import { getAll } from "./utils/storageUtils";
 import { Transaction } from "./components/Transaction";
+import { getChart, getTotalChart } from "./charts";
+import { incomeChartOptions, expensesChartOptions, totalChartOptions } from "./config/chartOptions";
 
 let currentActiveId = null;
 
@@ -51,6 +53,12 @@ const init = () => {
     editTransaction.addEventListener("click", () => editFormData(viewTransactionForm));
     deleteTransaction.addEventListener("click", () => deleteFormData(viewTransactionForm));
     cancelTransaction.addEventListener("click", () => closeForm(viewTransactionForm));
+
+    getChart(incomeChartOptions);
+    getChart(expensesChartOptions);
+    getChart(totalChartOptions);
+
+    // getTotalChart("#transaction-chart",chartOptions);
 };
 
 init();
