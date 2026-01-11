@@ -5,6 +5,8 @@ import {
     removeTransactionFromList,
     updateTransactionFields,
 } from "./uiUtils";
+import { loadCategoriesIntoForm } from "./categoryUtils";
+import { loadTagsIntoForm } from "./tagUtils";
 
 const transactionsKey = import.meta.env.VITE_TRANSACTIONS_KEY;
 
@@ -71,8 +73,12 @@ export const openForm = (form, transactionId = "") => {
     if (transactionId) {
         // set data-id on the current View form
         form.dataset.id = transactionId;
+        loadCategoriesIntoForm("#view-transaction-category");
+        loadTagsIntoForm("#view-transaction-tag");
         populateForm(form);
     } else {
+        loadCategoriesIntoForm("#add-transaction-category");
+        loadTagsIntoForm("#add-transaction-tag");
         form.querySelector(".transaction-title").focus();
     }
 };
