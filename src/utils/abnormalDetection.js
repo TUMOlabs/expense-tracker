@@ -30,7 +30,7 @@ const mockTransactions = [
         id: "4",
         title: "Groceries",
         date: "2025-01-04",
-        amount: "600",
+        amount: "5",
         currency: "amd",
         description: "",
         type: "expense",
@@ -44,6 +44,7 @@ export function detectAbnormalEntries(entries, { windowDays = 3, multiplier = 2 
     for (let i = 0; i < sorted.length; i++) {
         const current = sorted[i];
         const currentDate = new Date(current.date);
+
         const windowStart = new Date(currentDate);
         windowStart.setDate(windowStart.getDate() - windowDays);
 
@@ -58,13 +59,19 @@ export function detectAbnormalEntries(entries, { windowDays = 3, multiplier = 2 
 
         const average = recent.reduce((sum, e) => sum + Number(e.amount), 0) / recent.length;
 
-        if (Number(current.amount) > average * multiplier) {
+        const amount = Number(current.amount);
+
+        if (amount > average * multiplier) {
             result.push({
                 ...current,
                 isFlagged: true,
-                reason: `Amount ${current.amount} is higher than ${multiplier}x recent average (${average.toFixed(
-                    2
-                )})`,
+                reason: "AMOUNT_ABOVE_RECENT_AVERAGE",
+            });
+        } else if (amount < average / multiplier) {
+            result.push({
+                ...current,
+                isFlagged: true,
+                reason: "AMOUNT_BELOW_RECENT_AVERAGE",
             });
         }
     }
