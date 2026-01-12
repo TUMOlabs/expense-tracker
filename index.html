@@ -15,7 +15,34 @@
                 <button id="new-tag-btn">+ Tag</button>
             </header>
             <article>
-                <ul id="transaction-list"></ul>
+                <ul id="transaction-list">
+                    <li id="transaction-list-header">
+                        <div>Title</div>
+                        <div>Type</div>
+                        <div>
+                            <span>Amount</span>
+                            <button id="amount-sort-asc">🡡</button>
+                            <button id="amount-sort-desc">🡣</button>
+                        </div>
+                        <div>Currency</div>
+                        <div>
+                            <span>Date</span>
+                            <button id="date-sort-asc">🡡</button>
+                            <button id="date-sort-desc">🡣</button>
+                            <button id="date-filter">▽</button>
+                        </div>
+                        <div>
+                            <span>Category</span>
+                            <button id="category-sort-asc">🡡</button>
+                            <button id="category-sort-desc">🡣</button>
+                            <button id="category-filter">▽</button>
+                        </div>
+                        <div>
+                            <span>Tag</span>
+                            <button id="tag-filter">▽</button>
+                        </div>
+                    </li>
+                </ul>
             </article>
             <aside id="sidebar">
                 <!-- CREATE TRANSACTION FORM -->
@@ -197,7 +224,9 @@
                     </fieldset>
                     <button id="view-transaction-save-btn" type="button">Save</button>
                     <button id="view-transaction-edit-btn" type="button">Edit</button>
-                    <button id="view-transaction-delete-btn" type="button" title="Remove">✖</button>
+                    <button id="view-transaction-delete-btn" type="button" title="Remove">
+                        🗑️
+                    </button>
                     <button id="view-transaction-cancel-btn" type="button">Cancel</button>
                 </form>
                 <!-- VIEW AND CREATE CATEGORY -->
@@ -207,7 +236,7 @@
                         <input id="category-name" name="name" type="text" />
                     </fieldset>
                     <button id="category-add-btn">Add</button>
-                    <button id="category-remove-btn" title="Remove">✖</button>
+                    <button id="category-remove-btn" title="Remove">🗑️</button>
                     <fieldset>
                         <ul id="category-list" />
                     </fieldset>
@@ -220,7 +249,7 @@
                         <input id="tag-name" name="name" type="text" />
                     </fieldset>
                     <button id="tag-add-btn">Add</button>
-                    <button id="tag-remove-btn" title="Remove">✖</button>
+                    <button id="tag-remove-btn" title="Remove">🗑️</button>
                     <fieldset>
                         <ul id="tag-list" />
                     </fieldset>
