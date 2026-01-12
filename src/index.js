@@ -22,7 +22,6 @@ import { aggregateEntries } from "./utils/aggregation";
 import { detectAbnormalEntries } from "./utils/abnormalDetection";
 import { sortTransactions } from "./utils/sortUtils";
 
-// currently selected transaction id. passed to a form as data-id
 let currentActiveId = null;
 
 const renderList = () => {
@@ -35,6 +34,43 @@ const renderList = () => {
     });
 
     list.appendChild(fragment);
+};
+
+const setSortUI = (group, dir) => {
+    const ascBtn = document.querySelector(`#${group}-sort-asc`);
+    const descBtn = document.querySelector(`#${group}-sort-desc`);
+
+    if (!ascBtn || !descBtn) return;
+
+    const activate = (btn) => {
+        btn.classList.add("sort-active");
+        btn.classList.remove("sort-inactive");
+    };
+
+    const deactivate = (btn) => {
+        btn.classList.remove("sort-active");
+        btn.classList.add("sort-inactive");
+    };
+
+    if (dir === "asc") {
+        activate(ascBtn);
+        deactivate(descBtn);
+    } else {
+        activate(descBtn);
+        deactivate(ascBtn);
+    }
+};
+
+const resetOtherSorts = (currentGroup) => {
+    ["amount", "date", "category"].forEach((group) => {
+        if (group === currentGroup) return;
+
+        const ascBtn = document.querySelector(`#${group}-sort-asc`);
+        const descBtn = document.querySelector(`#${group}-sort-desc`);
+
+        ascBtn?.classList.remove("sort-active", "sort-inactive");
+        descBtn?.classList.remove("sort-active", "sort-inactive");
+    });
 };
 
 const init = () => {
@@ -69,7 +105,6 @@ const init = () => {
     const addTransactionForm = document.querySelector("#add-transaction-form");
     const viewTransactionForm = document.querySelector("#view-transaction-form");
 
-    // new transaction
     const newTransaction = document.querySelector("#new-transaction-btn");
     const saveNewTransaction = document.querySelector("#add-transaction-save-btn");
     const cancelNewTransaction = document.querySelector("#add-transaction-cancel-btn");
@@ -78,7 +113,6 @@ const init = () => {
     saveNewTransaction.addEventListener("click", () => saveFormData(addTransactionForm));
     cancelNewTransaction.addEventListener("click", () => closeForm(addTransactionForm));
 
-    // event delegation: adds one listener to the parent instead of adding to each entry
     transactionList.addEventListener("click", (event) => {
         const transaction = event.target.closest(".transaction-entry");
         if (transaction) {
@@ -97,8 +131,6 @@ const init = () => {
     deleteTransaction.addEventListener("click", () => deleteFormData(viewTransactionForm));
     cancelTransaction.addEventListener("click", () => closeForm(viewTransactionForm));
 
-    // charts
-    // sort
     const amountSortAsc = document.querySelector("#amount-sort-asc");
     const amountSortDesc = document.querySelector("#amount-sort-desc");
     const dateSortAsc = document.querySelector("#date-sort-asc");
@@ -106,12 +138,41 @@ const init = () => {
     const categorySortAsc = document.querySelector("#category-sort-asc");
     const categorySortDesc = document.querySelector("#category-sort-desc");
 
-    amountSortAsc.addEventListener("click", () => sortTransactions("amount", "asc"));
-    amountSortDesc.addEventListener("click", () => sortTransactions("amount", "desc"));
-    dateSortAsc.addEventListener("click", () => sortTransactions("date", "asc"));
-    dateSortDesc.addEventListener("click", () => sortTransactions("date", "desc"));
-    categorySortAsc.addEventListener("click", () => sortTransactions("category", "asc"));
-    categorySortDesc.addEventListener("click", () => sortTransactions("category", "desc"));
+    amountSortAsc.addEventListener("click", () => {
+        resetOtherSorts("amount");
+        setSortUI("amount", "asc");
+        sortTransactions("amount", "asc");
+    });
+
+    amountSortDesc.addEventListener("click", () => {
+        resetOtherSorts("amount");
+        setSortUI("amount", "desc");
+        sortTransactions("amount", "desc");
+    });
+
+    dateSortAsc.addEventListener("click", () => {
+        resetOtherSorts("date");
+        setSortUI("date", "asc");
+        sortTransactions("date", "asc");
+    });
+
+    dateSortDesc.addEventListener("click", () => {
+        resetOtherSorts("date");
+        setSortUI("date", "desc");
+        sortTransactions("date", "desc");
+    });
+
+    categorySortAsc.addEventListener("click", () => {
+        resetOtherSorts("category");
+        setSortUI("category", "asc");
+        sortTransactions("category", "asc");
+    });
+
+    categorySortDesc.addEventListener("click", () => {
+        resetOtherSorts("category");
+        setSortUI("category", "desc");
+        sortTransactions("category", "desc");
+    });
 
     getChart(incomeChartOptions);
     getChart(expensesChartOptions);
