@@ -7,7 +7,7 @@ import {
 } from "./utils/transactionUtils";
 import { getAll } from "./utils/storageUtils";
 import { Transaction } from "./components/Transaction";
-import { getChart, getTotalChart } from "./charts";
+import { getChart } from "./charts";
 import { incomeChartOptions, expensesChartOptions, totalChartOptions } from "./config/chartOptions";
 import {
     loadCategories,
@@ -15,8 +15,12 @@ import {
     removeCategories,
     saveCategory,
 } from "./utils/categoryUtils";
-
 import { loadTags, openTagSection, removeTags, saveTag } from "./utils/tagUtils";
+
+// ⬇⬇⬇ ADDED IMPORTS FOR EXPORT FEATURE
+import { exportReport } from "./utils/exportReport";
+import { aggregateEntries } from "./utils/aggregation";
+import { detectAbnormalEntries } from "./utils/abnormalDetection";
 
 // currently selected transaction id. passed to a form as data-id
 let currentActiveId = null;
@@ -76,14 +80,13 @@ const init = () => {
 
     // event delegation: adds one listener to the parent instead of adding to each entry
     transactionList.addEventListener("click", (event) => {
-        // existing transaction
         const transaction = event.target.closest(".transaction-entry");
         if (transaction) {
             currentActiveId = transaction.dataset.id;
             openForm(viewTransactionForm, currentActiveId);
         }
     });
-    // existing transaction
+
     const saveTransaction = document.querySelector("#view-transaction-save-btn");
     const editTransaction = document.querySelector("#view-transaction-edit-btn");
     const deleteTransaction = document.querySelector("#view-transaction-delete-btn");
@@ -94,11 +97,31 @@ const init = () => {
     deleteTransaction.addEventListener("click", () => deleteFormData(viewTransactionForm));
     cancelTransaction.addEventListener("click", () => closeForm(viewTransactionForm));
 
+    // charts
     getChart(incomeChartOptions);
     getChart(expensesChartOptions);
     getChart(totalChartOptions);
 
-    // getTotalChart("#transaction-chart",chartOptions);
+    const exportBtn = document.querySelector("#export-report-btn");
+
+    if (exportBtn) {
+        exportBtn.addEventListener("click", async () => {
+            const entries = getAll(import.meta.env.VITE_TRANSACTIONS_KEY);
+
+            const aggregates = {
+                daily: aggregateEntries(entries, "daily"),
+                weekly: aggregateEntries(entries, "weekly"),
+            };
+
+            const anomalies = detectAbnormalEntries(entries);
+
+            await exportReport({
+                entries,
+                aggregates,
+                anomalies,
+            });
+        });
+    }
 };
 
 init();
