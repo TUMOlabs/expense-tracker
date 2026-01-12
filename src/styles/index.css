@@ -287,3 +287,11 @@ button:active {
     border: 1px solid #fcc;
     background-color: #fee;
 }
+
+.sort-active {
+    font-weight: 700;
+    transform: scale(1.15);
+}
+.sort-inactive {
+    opacity: 0.35;
+}
