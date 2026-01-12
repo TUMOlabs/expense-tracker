@@ -251,6 +251,33 @@ button:active {
     filter: brightness(0.9);
 }
 
+.transaction-entry {
+    margin: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.transaction-entry > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+    .transaction-entry:hover {
+        filter: brightness(1.1);
+    }
+}
+
+.transaction-entry:active {
+    filter: brightness(0.9);
+}
+
 .income {
     border: 1px solid #afa;
     background-color: #efe;

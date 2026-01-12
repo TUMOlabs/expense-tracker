@@ -7,7 +7,7 @@ import {
 } from "./utils/transactionUtils";
 import { getAll } from "./utils/storageUtils";
 import { Transaction } from "./components/Transaction";
-import { getChart, getTotalChart } from "./charts";
+import { getChart } from "./charts";
 import { incomeChartOptions, expensesChartOptions, totalChartOptions } from "./config/chartOptions";
 import {
     loadCategories,
@@ -20,6 +20,11 @@ import { loadTags, openTagSection, removeTags, saveTag } from "./utils/tagUtils"
 import { sortTransactions } from "./utils/sortUtils";
 
 // currently selected transaction id. passed to a form as data-id
+import { exportReport } from "./utils/exportReport";
+import { aggregateEntries } from "./utils/aggregation";
+import { detectAbnormalEntries } from "./utils/abnormalDetection";
+import { sortTransactions } from "./utils/sortUtils";
+
 let currentActiveId = null;
 
 const renderList = () => {
@@ -32,6 +37,43 @@ const renderList = () => {
     });
 
     list.appendChild(fragment);
+};
+
+const setSortUI = (group, dir) => {
+    const ascBtn = document.querySelector(`#${group}-sort-asc`);
+    const descBtn = document.querySelector(`#${group}-sort-desc`);
+
+    if (!ascBtn || !descBtn) return;
+
+    const activate = (btn) => {
+        btn.classList.add("sort-active");
+        btn.classList.remove("sort-inactive");
+    };
+
+    const deactivate = (btn) => {
+        btn.classList.remove("sort-active");
+        btn.classList.add("sort-inactive");
+    };
+
+    if (dir === "asc") {
+        activate(ascBtn);
+        deactivate(descBtn);
+    } else {
+        activate(descBtn);
+        deactivate(ascBtn);
+    }
+};
+
+const resetOtherSorts = (currentGroup) => {
+    ["amount", "date", "category"].forEach((group) => {
+        if (group === currentGroup) return;
+
+        const ascBtn = document.querySelector(`#${group}-sort-asc`);
+        const descBtn = document.querySelector(`#${group}-sort-desc`);
+
+        ascBtn?.classList.remove("sort-active", "sort-inactive");
+        descBtn?.classList.remove("sort-active", "sort-inactive");
+    });
 };
 
 const init = () => {
@@ -66,7 +108,6 @@ const init = () => {
     const addTransactionForm = document.querySelector("#add-transaction-form");
     const viewTransactionForm = document.querySelector("#view-transaction-form");
 
-    // new transaction
     const newTransaction = document.querySelector("#new-transaction-btn");
     const saveNewTransaction = document.querySelector("#add-transaction-save-btn");
     const cancelNewTransaction = document.querySelector("#add-transaction-cancel-btn");
@@ -75,16 +116,14 @@ const init = () => {
     saveNewTransaction.addEventListener("click", () => saveFormData(addTransactionForm));
     cancelNewTransaction.addEventListener("click", () => closeForm(addTransactionForm));
 
-    // event delegation: adds one listener to the parent instead of adding to each entry
     transactionList.addEventListener("click", (event) => {
-        // existing transaction
         const transaction = event.target.closest(".transaction-entry");
         if (transaction) {
             currentActiveId = transaction.dataset.id;
             openForm(viewTransactionForm, currentActiveId);
         }
     });
-    // existing transaction
+
     const saveTransaction = document.querySelector("#view-transaction-save-btn");
     const editTransaction = document.querySelector("#view-transaction-edit-btn");
     const deleteTransaction = document.querySelector("#view-transaction-delete-btn");
@@ -103,18 +142,66 @@ const init = () => {
     const categorySortAsc = document.querySelector("#category-sort-asc");
     const categorySortDesc = document.querySelector("#category-sort-desc");
 
-    amountSortAsc.addEventListener("click", () => sortTransactions("amount", "asc"));
-    amountSortDesc.addEventListener("click", () => sortTransactions("amount", "desc"));
-    dateSortAsc.addEventListener("click", () => sortTransactions("date", "asc"));
-    dateSortDesc.addEventListener("click", () => sortTransactions("date", "desc"));
-    categorySortAsc.addEventListener("click", () => sortTransactions("category", "asc"));
-    categorySortDesc.addEventListener("click", () => sortTransactions("category", "desc"));
+    amountSortAsc.addEventListener("click", () => {
+        resetOtherSorts("amount");
+        setSortUI("amount", "asc");
+        sortTransactions("amount", "asc");
+    });
+
+    amountSortDesc.addEventListener("click", () => {
+        resetOtherSorts("amount");
+        setSortUI("amount", "desc");
+        sortTransactions("amount", "desc");
+    });
+
+    dateSortAsc.addEventListener("click", () => {
+        resetOtherSorts("date");
+        setSortUI("date", "asc");
+        sortTransactions("date", "asc");
+    });
+
+    dateSortDesc.addEventListener("click", () => {
+        resetOtherSorts("date");
+        setSortUI("date", "desc");
+        sortTransactions("date", "desc");
+    });
+
+    categorySortAsc.addEventListener("click", () => {
+        resetOtherSorts("category");
+        setSortUI("category", "asc");
+        sortTransactions("category", "asc");
+    });
+
+    categorySortDesc.addEventListener("click", () => {
+        resetOtherSorts("category");
+        setSortUI("category", "desc");
+        sortTransactions("category", "desc");
+    });
 
     getChart(incomeChartOptions);
     getChart(expensesChartOptions);
     getChart(totalChartOptions);
 
-    // getTotalChart("#transaction-chart",chartOptions);
+    const exportBtn = document.querySelector("#export-report-btn");
+
+    if (exportBtn) {
+        exportBtn.addEventListener("click", async () => {
+            const entries = getAll(import.meta.env.VITE_TRANSACTIONS_KEY);
+
+            const aggregates = {
+                daily: aggregateEntries(entries, "daily"),
+                weekly: aggregateEntries(entries, "weekly"),
+            };
+
+            const anomalies = detectAbnormalEntries(entries);
+
+            await exportReport({
+                entries,
+                aggregates,
+                anomalies,
+            });
+        });
+    }
 };
 
 init();

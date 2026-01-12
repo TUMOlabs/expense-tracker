@@ -29,26 +29,33 @@ const toggleEdit = (form, status) => {
     });
 };
 
+const toggleEditSaveButtons = (form, isEditing) => {
+    const editBtn = form.querySelector("#view-transaction-edit-btn");
+    const saveBtn = form.querySelector("#view-transaction-save-btn");
+
+    if (!editBtn || !saveBtn) return;
+
+    editBtn.hidden = isEditing;
+    saveBtn.hidden = !isEditing;
+};
+
 export const getFormData = (form) => {
     const formData = new FormData(form);
 
     const impact = document.querySelector("#view-transaction-impact").innerText;
-    // const flag = document.querySelector("#view-transaction-flag").innerText;
     const reason = document.querySelector("#view-transaction-reason").innerText;
 
-    // append 'output' form elements
     formData.append("impact", impact);
-    // formData.append("flag", flag);
     formData.append("reason", reason);
 
-    const data = Object.fromEntries(formData.entries());
-    return data;
+    return Object.fromEntries(formData.entries());
 };
 
 const populateForm = (form) => {
     try {
         const data = getById(transactionsKey, form.dataset.id);
         const date = getDateFromString(data.date);
+
         form.title.value = data.title;
         form.date.value = date;
         form.amount.value = data.amount;
@@ -57,7 +64,6 @@ const populateForm = (form) => {
         form.type.value = data.type;
         form.category.value = data.category;
         form.tag.value = data.tag;
-        // form.flag.value = data.flag;
         form.reason.value = data.reason;
         form.impact.value = data.impact;
     } catch (error) {
@@ -71,11 +77,12 @@ export const openForm = (form, transactionId = "") => {
     form.hidden = false;
 
     if (transactionId) {
-        // set data-id on the current View form
         form.dataset.id = transactionId;
         loadCategoriesIntoForm("#view-transaction-category");
         loadTagsIntoForm("#view-transaction-tag");
         populateForm(form);
+        toggleEdit(form, true);
+        toggleEditSaveButtons(form, false);
     } else {
         loadCategoriesIntoForm("#add-transaction-category");
         loadTagsIntoForm("#add-transaction-tag");
@@ -86,10 +93,12 @@ export const openForm = (form, transactionId = "") => {
 export const saveFormData = (form) => {
     const formData = getFormData(form);
     const date = new Date(formData.date).toISOString();
+
     const data = {
         ...formData,
         date,
     };
+
     if (!form.dataset.id) {
         try {
             const newTransaction = create(transactionsKey, data);
@@ -99,7 +108,6 @@ export const saveFormData = (form) => {
         }
     } else {
         try {
-            // get transaction id from current form data-id
             const transactionId = form.dataset.id;
             update(transactionsKey, transactionId, data);
             updateTransactionFields(transactionId, data);
@@ -107,6 +115,8 @@ export const saveFormData = (form) => {
             console.log(error);
         }
     }
+
+    toggleEditSaveButtons(form, false);
     closeForm(form);
     return data;
 };
@@ -114,6 +124,7 @@ export const saveFormData = (form) => {
 export const closeForm = (form) => {
     if (form.dataset.id) {
         toggleEdit(form, true);
+        toggleEditSaveButtons(form, false);
     }
     form.style.zIndex = 100;
     form.hidden = true;
@@ -122,6 +133,7 @@ export const closeForm = (form) => {
 
 export const editFormData = (form) => {
     toggleEdit(form, false);
+    toggleEditSaveButtons(form, true);
     document.querySelector("#view-transaction-title").focus();
 };
 
