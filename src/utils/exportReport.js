@@ -121,9 +121,3 @@ const mockAnomalies = [
         reason: "AMOUNT_BELOW_RECENT_AVERAGE",
     },
 ];
-
-exportReport({
-    entries: mockEntries,
-    aggregates: mockAggregates,
-    anomalies: mockAnomalies,
-});
