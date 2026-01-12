@@ -17,8 +17,6 @@ import {
 } from "./utils/categoryUtils";
 import { loadTags, openTagSection, removeTags, saveTag } from "./utils/tagUtils";
 
-import { sortTransactions } from "./utils/sortUtils";
-
 // currently selected transaction id. passed to a form as data-id
 import { exportReport } from "./utils/exportReport";
 import { aggregateEntries } from "./utils/aggregation";
