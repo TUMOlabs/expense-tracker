@@ -224,6 +224,10 @@ button:active {
     gap: 0.5rem;
 }
 
+#transaction-list-header > * {
+    margin: auto 0;
+}
+
 #date-filter-section,
 #category-filter-section,
 #tag-filter-section {
