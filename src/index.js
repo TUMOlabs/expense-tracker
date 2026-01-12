@@ -17,10 +17,10 @@ import {
 } from "./utils/categoryUtils";
 import { loadTags, openTagSection, removeTags, saveTag } from "./utils/tagUtils";
 
-// ⬇⬇⬇ ADDED IMPORTS FOR EXPORT FEATURE
 import { exportReport } from "./utils/exportReport";
 import { aggregateEntries } from "./utils/aggregation";
 import { detectAbnormalEntries } from "./utils/abnormalDetection";
+import { sortTransactions } from "./utils/sortUtils";
 
 // currently selected transaction id. passed to a form as data-id
 let currentActiveId = null;
@@ -98,6 +98,21 @@ const init = () => {
     cancelTransaction.addEventListener("click", () => closeForm(viewTransactionForm));
 
     // charts
+    // sort
+    const amountSortAsc = document.querySelector("#amount-sort-asc");
+    const amountSortDesc = document.querySelector("#amount-sort-desc");
+    const dateSortAsc = document.querySelector("#date-sort-asc");
+    const dateSortDesc = document.querySelector("#date-sort-desc");
+    const categorySortAsc = document.querySelector("#category-sort-asc");
+    const categorySortDesc = document.querySelector("#category-sort-desc");
+
+    amountSortAsc.addEventListener("click", () => sortTransactions("amount", "asc"));
+    amountSortDesc.addEventListener("click", () => sortTransactions("amount", "desc"));
+    dateSortAsc.addEventListener("click", () => sortTransactions("date", "asc"));
+    dateSortDesc.addEventListener("click", () => sortTransactions("date", "desc"));
+    categorySortAsc.addEventListener("click", () => sortTransactions("category", "asc"));
+    categorySortDesc.addEventListener("click", () => sortTransactions("category", "desc"));
+
     getChart(incomeChartOptions);
     getChart(expensesChartOptions);
     getChart(totalChartOptions);

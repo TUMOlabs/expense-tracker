@@ -189,15 +189,66 @@ button:active {
     background-color: #ddd;
 }
 
+#category-section,
+#tag-section {
+    background-color: white;
+    padding: 0.5rem;
+    z-index: 20;
+}
+
+#category-section > *,
+#tag-section > * {
+    margin: 0.5rem;
+}
+
+#transaction-list {
+    background-color: white;
+    /* z-index: 10; */
+}
+
+#transaction-list-header {
+    border: 1px solid #aaa;
+    background-color: #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-weight: 600;
+    color: #777;
+    cursor: inherit;
+    margin: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.5rem;
+}
+
 .transaction-entry {
     margin: 0.5rem;
     padding: 0.2rem 0.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-columns: repeat(7, 1fr);
     gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.transaction-entry > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+    .transaction-entry:hover {
+        filter: brightness(1.1);
+    }
+}
+
+.transaction-entry:active {
+    filter: brightness(0.9);
 }
 
 .income {
