@@ -23,6 +23,15 @@ import { aggregateEntries } from "./utils/aggregation";
 import { detectAbnormalEntries } from "./utils/abnormalDetection";
 import { sortTransactions } from "./utils/sortUtils";
 
+import {
+    filterCategorySelection,
+    filterTransactionsByCategory,
+    filterTagSelection,
+    filterTransactionsByTag,
+    filterDateSelection,
+    filterTransactionsByDate,
+} from "./utils/filterUtils";
+
 let currentActiveId = null;
 
 const renderList = () => {
@@ -176,6 +185,22 @@ const init = () => {
         sortTransactions("category", "desc");
     });
 
+    // filter
+    const categoryFilter = document.querySelector("#category-filter");
+    const categoryFilterButton = document.querySelector("#category-filter-btn");
+    const tagFilter = document.querySelector("#tag-filter");
+    const tagFilterButton = document.querySelector("#tag-filter-btn");
+    const dateFilter = document.querySelector("#date-filter");
+    const dateFilterButton = document.querySelector("#date-filter-btn");
+
+    categoryFilter.addEventListener("click", () => filterCategorySelection());
+    categoryFilterButton.addEventListener("click", () => filterTransactionsByCategory());
+    tagFilter.addEventListener("click", () => filterTagSelection());
+    tagFilterButton.addEventListener("click", () => filterTransactionsByTag());
+    dateFilter.addEventListener("click", () => filterDateSelection());
+    dateFilterButton.addEventListener("click", () => filterTransactionsByDate());
+
+    // charts
     getChart(incomeChartOptions);
     getChart(expensesChartOptions);
     getChart(totalChartOptions);
