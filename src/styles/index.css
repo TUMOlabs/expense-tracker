@@ -260,3 +260,265 @@ button:active {
     border: 1px solid #fcc;
     background-color: #fee;
 }
+/* resets */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*:not(dialog) {
+    margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        interpolate-size: allow-keywords;
+    }
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+/* ********* */
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        "Open Sans",
+        "Helvetica Neue",
+        sans-serif;
+}
+
+main {
+    background-color: whitesmoke;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    grid-template-columns: 1fr max-content;
+}
+
+article {
+    background-color: white;
+    border: 1px solid #aaa;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    overflow-y: scroll;
+}
+
+aside {
+    background-color: whitesmoke;
+    width: max-content;
+    display: grid;
+    overflow: scroll;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin: 0.5rem;
+}
+
+header {
+    border: 1px solid #aaa;
+    background-color: white;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+footer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem;
+    border: 1px solid #aaa;
+    background-color: white;
+    height: 40vh;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+form {
+    grid-row: 1;
+    grid-column: 1;
+    width: max-content;
+    z-index: 100;
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+fieldset {
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+textarea {
+    resize: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+button {
+    border: 1px solid #aaa;
+    background-color: #ddd;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+    button:hover {
+        background-color: #eee;
+    }
+}
+
+button:active {
+    background-color: #ddd;
+}
+
+#category-section,
+#tag-section {
+    background-color: white;
+    padding: 0.5rem;
+    z-index: 20;
+}
+
+#category-section > *,
+#tag-section > * {
+    margin: 0.5rem;
+}
+
+#transaction-list {
+    background-color: white;
+    /* z-index: 10; */
+}
+
+#transaction-list-header {
+    border: 1px solid #aaa;
+    background-color: #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-weight: 600;
+    color: #777;
+    cursor: inherit;
+    margin: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.5rem;
+}
+
+.transaction-entry {
+    margin: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.transaction-entry > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+    .transaction-entry:hover {
+        filter: brightness(1.1);
+    }
+}
+
+.transaction-entry:active {
+    filter: brightness(0.9);
+}
+
+.income {
+    border: 1px solid #afa;
+    background-color: #efe;
+}
+
+.expense {
+    border: 1px solid #fcc;
+    background-color: #fee;
+}
