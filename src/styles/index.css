@@ -224,6 +224,23 @@ button:active {
     gap: 0.5rem;
 }
 
+#date-filter-section,
+#category-filter-section,
+#tag-filter-section {
+    background-color: white;
+    position: absolute;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: normal;
+    color: #333;
+}
+
+#date-filter-section > *,
+#category-filter-section > *,
+#tag-filter-section > * {
+    margin: 0.5rem;
+}
+
 .transaction-entry {
     margin: 0.5rem;
     padding: 0.2rem 0.5rem;
@@ -243,39 +260,12 @@ button:active {
 
 @media (hover: hover) {
     .transaction-entry:hover {
-        filter: brightness(1.1);
+        filter: brightness(1.05);
     }
 }
 
 .transaction-entry:active {
-    filter: brightness(0.9);
-}
-
-.transaction-entry {
-    margin: 0.5rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-}
-
-.transaction-entry > span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-@media (hover: hover) {
-    .transaction-entry:hover {
-        filter: brightness(1.1);
-    }
-}
-
-.transaction-entry:active {
-    filter: brightness(0.9);
+    filter: brightness(0.95);
 }
 
 .income {

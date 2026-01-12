@@ -31,16 +31,35 @@
                             <button id="date-sort-asc">🡡</button>
                             <button id="date-sort-desc">🡣</button>
                             <button id="date-filter">▽</button>
+                            <section id="date-filter-section" hidden>
+                                <form id="date-filter-form">
+                                    <input id="date-filter-from" type="date" name="from" />
+                                    <input id="date-filter-to" type="date" name="to" />
+                                </form>
+                                <button id="date-filter-btn">Filter</button>
+                            </section>
                         </div>
                         <div>
                             <span>Category</span>
                             <button id="category-sort-asc">🡡</button>
                             <button id="category-sort-desc">🡣</button>
                             <button id="category-filter">▽</button>
+                            <section id="category-filter-section" hidden>
+                                <fieldset>
+                                    <ul id="category-filter-list" />
+                                </fieldset>
+                                <button id="category-filter-btn">Filter</button>
+                            </section>
                         </div>
                         <div>
                             <span>Tag</span>
                             <button id="tag-filter">▽</button>
+                            <section id="tag-filter-section" hidden>
+                                <fieldset>
+                                    <ul id="tag-filter-list" />
+                                </fieldset>
+                                <button id="tag-filter-btn">Filter</button>
+                            </section>
                         </div>
                     </li>
                 </ul>
