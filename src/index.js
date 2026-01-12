@@ -1,9 +1,24 @@
-import { openForm, closeForm, saveFormData, editFormData, deleteFormData } from "./utils/formUtils";
+import {
+    openForm,
+    closeForm,
+    saveFormData,
+    editFormData,
+    deleteFormData,
+} from "./utils/transactionUtils";
 import { getAll } from "./utils/storageUtils";
 import { Transaction } from "./components/Transaction";
 import { getChart, getTotalChart } from "./charts";
 import { incomeChartOptions, expensesChartOptions, totalChartOptions } from "./config/chartOptions";
+import {
+    loadCategories,
+    openCategorySection,
+    removeCategories,
+    saveCategory,
+} from "./utils/categoryUtils";
 
+import { loadTags, openTagSection, removeTags, saveTag } from "./utils/tagUtils";
+
+// currently selected transaction id. passed to a form as data-id
 let currentActiveId = null;
 
 const renderList = () => {
@@ -20,17 +35,42 @@ const renderList = () => {
 
 const init = () => {
     renderList();
+    loadCategories();
+    loadTags();
 
+    // category
+    const newCategory = document.querySelector("#new-category-btn");
+    const addCategory = document.querySelector("#category-add-btn");
+    const removeCategory = document.querySelector("#category-remove-btn");
+    const closeCategorySection = document.querySelector("#category-close-btn");
+
+    newCategory.addEventListener("click", openCategorySection);
+    addCategory.addEventListener("click", saveCategory);
+    removeCategory.addEventListener("click", removeCategories);
+    closeCategorySection.addEventListener("click", openCategorySection);
+
+    // tag
+    const newTag = document.querySelector("#new-tag-btn");
+    const addTag = document.querySelector("#tag-add-btn");
+    const removeTag = document.querySelector("#tag-remove-btn");
+    const closeTagSection = document.querySelector("#tag-close-btn");
+
+    newTag.addEventListener("click", openTagSection);
+    addTag.addEventListener("click", saveTag);
+    removeTag.addEventListener("click", removeTags);
+    closeTagSection.addEventListener("click", openTagSection);
+
+    // transaction
     const transactionList = document.querySelector("#transaction-list");
     const addTransactionForm = document.querySelector("#add-transaction-form");
     const viewTransactionForm = document.querySelector("#view-transaction-form");
 
     // new transaction
-    const addNewTransaction = document.querySelector("#add-transaction-btn");
+    const newTransaction = document.querySelector("#new-transaction-btn");
     const saveNewTransaction = document.querySelector("#add-transaction-save-btn");
     const cancelNewTransaction = document.querySelector("#add-transaction-cancel-btn");
 
-    addNewTransaction.addEventListener("click", () => openForm(addTransactionForm));
+    newTransaction.addEventListener("click", () => openForm(addTransactionForm));
     saveNewTransaction.addEventListener("click", () => saveFormData(addTransactionForm));
     cancelNewTransaction.addEventListener("click", () => closeForm(addTransactionForm));
 
