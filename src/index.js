@@ -83,6 +83,11 @@ const resetOtherSorts = (currentGroup) => {
     });
 };
 
+// charts
+export const incomeChart = getChart(incomeChartOptions);
+export const expensesChart = getChart(expensesChartOptions);
+export const totalChart = getChart(totalChartOptions);
+
 const init = () => {
     renderList();
     loadCategories();
@@ -200,10 +205,10 @@ const init = () => {
     dateFilter.addEventListener("click", () => filterDateSelection());
     dateFilterButton.addEventListener("click", () => filterTransactionsByDate());
 
-    // charts
-    getChart(incomeChartOptions);
-    getChart(expensesChartOptions);
-    getChart(totalChartOptions);
+    // // charts
+    // const incomeChart = getChart(incomeChartOptions);
+    // const expensesChart = getChart(expensesChartOptions);
+    // const totalChart = getChart(totalChartOptions);
 
     const exportBtn = document.querySelector("#export-report-btn");
 
