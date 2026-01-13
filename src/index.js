@@ -205,11 +205,7 @@ const init = () => {
     dateFilter.addEventListener("click", () => filterDateSelection());
     dateFilterButton.addEventListener("click", () => filterTransactionsByDate());
 
-    // // charts
-    // const incomeChart = getChart(incomeChartOptions);
-    // const expensesChart = getChart(expensesChartOptions);
-    // const totalChart = getChart(totalChartOptions);
-
+    // export
     const exportBtn = document.querySelector("#export-report-btn");
 
     if (exportBtn) {
