@@ -5,7 +5,7 @@ export const getChart = (options) => {
 
     const ctx = document.querySelector(chartId);
 
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
@@ -38,6 +38,8 @@ export const getChart = (options) => {
             },
         },
     });
+
+    return chart;
 };
 
 export const getTotalChart = (chartId, options) => {
