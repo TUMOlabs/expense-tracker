@@ -17,7 +17,6 @@ export const loadTagsIntoForm = (target) => {
     const dropdown = document.querySelector(target);
 
     if (data && dropdown.children.length <= 2) {
-        console.log(target);
         data.forEach((entry) => {
             const option = document.createElement("option");
             option.value = entry.name;
