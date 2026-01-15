@@ -1,4 +1,5 @@
 import Chart from "chart.js/auto";
+import { openForm } from "./utils/transactionUtils";
 
 export const getChart = (options) => {
     const { chartId, labels, datasets, scaleX, scaleY, label, colors } = options;
@@ -27,6 +28,14 @@ export const getChart = (options) => {
             scales: {
                 x: {
                     title: { display: false, text: scaleX },
+                    type: "category",
+                    ticks: {
+                        autoSkip: false,
+                        // source: "data",
+                        // maxRotation: 45,
+                        maxRotation: 90,
+                        minRotation: 45,
+                    },
                 },
                 y: {
                     title: { display: false, text: scaleY },
@@ -35,6 +44,38 @@ export const getChart = (options) => {
             },
             plugins: {
                 legend: { position: "top" },
+                tooltip: {
+                    enabled: true,
+                    external: (context) => {
+                        const style = context.chart.canvas.style;
+                        style.cursor = context.tooltip.opacity > 0 ? "pointer" : "default";
+                    },
+                },
+            },
+            elements: {
+                point: {
+                    borderWidth: 2,
+                    drawActiveElementsOnTop: true,
+                    hoverBorderWidth: 8,
+                    // hoverRadius: 8,
+                    hitRadius: 20,
+                    radius: 4,
+                },
+            },
+            interaction: {
+                // mode: "index",
+                mode: "point",
+                intersect: false,
+                axis: "xy",
+            },
+            onClick: (events, elements, chart) => {
+                if (elements.length) {
+                    const { datasetIndex, index } = elements[0];
+                    const datapoint = chart.data.datasets[datasetIndex].data[index];
+                    const form = document.querySelector("#view-transaction-form");
+
+                    openForm(form, datapoint.id);
+                }
             },
         },
     });

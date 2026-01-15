@@ -7,7 +7,7 @@ import {
 } from "./uiUtils";
 import { loadCategoriesIntoForm } from "./categoryUtils";
 import { loadTagsIntoForm } from "./tagUtils";
-import { incomeChart, expensesChart, totalChart } from "..";
+import { addNewDataPoint, updateDataPoint } from "./chartUtils";
 
 const transactionsKey = import.meta.env.VITE_TRANSACTIONS_KEY;
 
@@ -104,37 +104,23 @@ export const saveFormData = (form) => {
         try {
             const newTransaction = create(transactionsKey, data);
             addTransactionToList(newTransaction);
+            // add to charts
+            addNewDataPoint(newTransaction);
         } catch (error) {
             console.log(error);
         }
     } else {
         try {
             const transactionId = form.dataset.id;
-            update(transactionsKey, transactionId, data);
+            const previous = getById(transactionsKey, transactionId);
+            const updated = update(transactionsKey, transactionId, data);
             updateTransactionFields(transactionId, data);
+            // update charts
+            updateDataPoint(previous, updated);
         } catch (error) {
             console.log(error);
         }
     }
-
-    // update charts
-    const totalData = totalChart.data.datasets[0].data;
-    let mult = 1;
-    if (data.type === "income") {
-        mult = 1;
-        incomeChart.data.labels.push(formData.date);
-        incomeChart.data.datasets[0].data.push(data.amount);
-        incomeChart.update();
-    } else {
-        mult = -1;
-        expensesChart.data.labels.push(formData.date);
-        expensesChart.data.datasets[0].data.push(data.amount);
-        expensesChart.update();
-    }
-    const total = parseInt(totalData[totalData.length - 1]) + parseInt(data.amount * mult);
-    totalData.push(total);
-    totalChart.data.labels.push(formData.date);
-    totalChart.update();
 
     toggleEditSaveButtons(form, false);
     closeForm(form);

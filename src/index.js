@@ -205,6 +205,29 @@ const init = () => {
     dateFilter.addEventListener("click", () => filterDateSelection());
     dateFilterButton.addEventListener("click", () => filterTransactionsByDate());
 
+    // container resize
+    const container = document.querySelector("#app");
+    const resizer = document.querySelector("#resizer");
+
+    const resize = (event) => {
+        const containerRect = container.getBoundingClientRect();
+        // const relativeY = event.clientY - containerRect.top;
+        const relativeY = containerRect.bottom - event.clientY;
+        container.style.gridTemplateRows = `max-content 1fr max-content ${relativeY}px`;
+        // console.log(event.clientY);
+    };
+
+    const stopResize = () => {
+        console.log("stop");
+        document.removeEventListener("mousemove", resize);
+    };
+
+    resizer.addEventListener("mousedown", () => {
+        console.log("down");
+        document.addEventListener("mousemove", resize);
+        document.addEventListener("mouseup", stopResize);
+    });
+
     // export
     const exportBtn = document.querySelector("#export-report-btn");
 

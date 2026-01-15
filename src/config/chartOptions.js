@@ -1,11 +1,10 @@
-import { getTransactionData } from "../utils/dataUtils";
+import { getChartData } from "../utils/chartUtils";
 
-const { labels, datasets } = getTransactionData();
+const { labels, datasets } = getChartData();
 
 export const incomeChartOptions = {
     chartId: "#income-chart",
-    // labels: labels.totalLabels,
-    labels: labels.incomeLabels,
+    labels: labels,
     datasets: [datasets.income],
     scaleX: "Date",
     scaleY: "Amount",
@@ -14,8 +13,7 @@ export const incomeChartOptions = {
 };
 export const expensesChartOptions = {
     chartId: "#expenses-chart",
-    // labels: labels.totalLabels,
-    labels: labels.expensesLabels,
+    labels: labels,
     datasets: [datasets.expenses],
     scaleX: "Date",
     scaleY: "Amount",
@@ -25,7 +23,7 @@ export const expensesChartOptions = {
 
 export const totalChartOptions = {
     chartId: "#total-chart",
-    labels: labels.totalLabels,
+    labels: labels,
     datasets: [datasets.total],
     scaleX: "Date",
     scaleY: "Amount",
@@ -34,7 +32,7 @@ export const totalChartOptions = {
 };
 
 export const chartOptions = {
-    labels: labels.totalLabels,
+    labels: labels,
     datasets: [datasets.income, datasets.expenses, datasets.total],
     scaleX: "Date",
     scaleY: "Amount",
