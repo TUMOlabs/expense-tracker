@@ -90,7 +90,11 @@ export const updateDataPoint = (previous, updated) => {
     let total = 0;
     // update labels
     if (previous.date !== updated.date) {
-        totalChart.data.labels[pointIndex] = updated.date.split("T")[0];
+        const newLabel = updated.date.split("T")[0];
+        // issue: this pushes a new datapoint with the old label to the dataset
+        // totalChart.data.labels[pointIndex] = newLabel;
+        // issue: this requires a page reload to update
+        totalChart.data.labels.forEach((label, index) => (index === pointIndex ? newLabel : label));
     }
     // update data
     if (previous.type === "income" && updated.type === "expense") {
