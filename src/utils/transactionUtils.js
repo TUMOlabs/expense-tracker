@@ -8,6 +8,7 @@ import {
 import { loadCategoriesIntoForm } from "./categoryUtils";
 import { loadTagsIntoForm } from "./tagUtils";
 import { addNewDataPoint, updateDataPoint } from "./chartUtils";
+import { z } from "zod";
 
 const transactionsKey = import.meta.env.VITE_TRANSACTIONS_KEY;
 
@@ -38,6 +39,34 @@ const toggleEditSaveButtons = (form, isEditing) => {
 
     editBtn.hidden = isEditing;
     saveBtn.hidden = !isEditing;
+};
+
+const validateUserInput = (formData) => {
+    const TransactionSchema = z.object({
+        title: z.string().min(1, "Title is required"),
+        date: z.coerce.date("Date is required"), // coerce to Date object
+        amount: z.coerce.number("Amount is required").min(1, "Amount must be a positive number"),
+        currency: z.enum(["amd", "usd", "eur"]).default("amd"),
+        type: z.enum(["income", "expense"]).default("expense"),
+        tag: z.string().max(100).optional(),
+        category: z.string().max(100).optional(),
+        description: z.string().max(500).optional(),
+    });
+
+    const data = {
+        title: formData.title,
+        date: formData.date,
+        amount: parseInt(formData.amount),
+        currency: formData.currency,
+        type: formData.type,
+        tag: formData.tag,
+        category: formData.category,
+        description: formData.description,
+    };
+
+    const result = TransactionSchema.safeParse(data);
+
+    return result;
 };
 
 export const getFormData = (form) => {
@@ -91,14 +120,51 @@ export const openForm = (form, transactionId = "") => {
     }
 };
 
+const displayErrors = (form, error) => {
+    // form errors
+    const errorDiv = form.querySelector(".form-errors");
+    for (const msg of error.formErrors) {
+        const message = document.createElement("p");
+        message.textContent = msg;
+        errorDiv.appendChild(message);
+    }
+    // form field errors
+    for (const field in error.fieldErrors) {
+        for (const msg in error.fieldErrors[field]) {
+            const nameField = form.querySelector(`.${field}-field-name`);
+            const errorField = form.querySelector(`.${field}-field-error`);
+            errorField.textContent = error.fieldErrors[field][msg];
+            nameField.hidden = true;
+            errorField.hidden = false;
+        }
+    }
+};
+
+const resetErrors = (form) => {
+    const fieldNames = form.querySelectorAll(`.field-name`);
+    const fieldErrors = form.querySelectorAll(`.field-error`);
+    for (const error of fieldErrors) {
+        error.hidden = true;
+        error.textContent = "";
+    }
+    for (const field of fieldNames) {
+        field.hidden = false;
+    }
+};
+
 export const saveFormData = (form) => {
     const formData = getFormData(form);
-    const date = new Date(formData.date).toISOString();
+    const validated = validateUserInput(formData);
+    // user input validation
+    resetErrors(form);
+    if (!validated.success) {
+        displayErrors(form, z.flattenError(validated.error));
+        return;
+    }
 
-    const data = {
-        ...formData,
-        date,
-    };
+    const date = validated.data.date.toISOString();
+
+    const data = { ...validated.data, date };
 
     if (!form.dataset.id) {
         try {
@@ -132,6 +198,8 @@ export const closeForm = (form) => {
         toggleEdit(form, true);
         toggleEditSaveButtons(form, false);
     }
+
+    resetErrors(form);
     form.style.zIndex = 100;
     form.hidden = true;
     form.reset();

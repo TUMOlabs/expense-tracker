@@ -312,3 +312,14 @@ button:active {
 .sort-inactive {
     opacity: 0.35;
 }
+
+.form-error-container {
+    width: 100%;
+}
+
+.field-error,
+.form-errors {
+    color: #f11;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

@@ -88,7 +88,8 @@
                         </select>
                     </fieldset>
                     <fieldset>
-                        <legend>Title</legend>
+                        <legend class="field-name title-field-name">Title</legend>
+                        <legend class="field-error title-field-error" hidden></legend>
                         <input
                             id="add-transaction-title"
                             name="title"
@@ -98,7 +99,8 @@
                         />
                     </fieldset>
                     <fieldset>
-                        <legend>Date</legend>
+                        <legend class="field-name date-field-name">Date</legend>
+                        <legend class="field-error date-field-error" hidden></legend>
                         <input id="add-transaction-date" name="date" type="date" required />
                     </fieldset>
                     <fieldset>
@@ -124,7 +126,8 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend>Amount</legend>
+                        <legend class="field-name amount-field-name">Amount</legend>
+                        <legend class="field-error amount-field-error" hidden></legend>
                         <input
                             id="add-transaction-amount"
                             name="amount"
@@ -147,6 +150,9 @@
                         <legend>Description</legend>
                         <textarea id="add-transaction-description" name="description"></textarea>
                     </fieldset>
+                    <div class="form-error-container">
+                        <div id="add-form-errors" class="form-errors"></div>
+                    </div>
                     <button id="add-transaction-save-btn" type="button">Save</button>
                     <button id="add-transaction-cancel-btn" type="button">Cancel</button>
                 </form>
@@ -173,7 +179,8 @@
                         </select>
                     </fieldset>
                     <fieldset disabled>
-                        <legend>Title</legend>
+                        <legend class="field-name title-field-name">Title</legend>
+                        <legend class="field-error title-field-error" hidden></legend>
                         <input
                             id="view-transaction-title"
                             name="title"
@@ -183,7 +190,8 @@
                         />
                     </fieldset>
                     <fieldset disabled>
-                        <legend>Date</legend>
+                        <legend class="field-name date-field-name">Date</legend>
+                        <legend class="field-error date-field-error" hidden></legend>
                         <input id="view-transaction-date" name="date" type="date" required />
                     </fieldset>
                     <fieldset disabled>
@@ -211,7 +219,8 @@
                         </div>
                     </fieldset>
                     <fieldset disabled>
-                        <legend>Amount</legend>
+                        <legend class="field-name amount-field-name">Amount</legend>
+                        <legend class="field-error amount-field-error" hidden></legend>
                         <input
                             id="view-transaction-amount"
                             name="amount"
@@ -240,6 +249,9 @@
                         <legend>Description</legend>
                         <textarea id="view-transaction-description" name="description"></textarea>
                     </fieldset>
+                    <div class="form-error-container">
+                        <div id="view-form-errors" class="form-errors"></div>
+                    </div>
                     <button id="view-transaction-save-btn" type="button">Save</button>
                     <button id="view-transaction-edit-btn" type="button">Edit</button>
                     <button id="view-transaction-delete-btn" type="button" title="Remove">
