@@ -218,12 +218,10 @@ const init = () => {
     };
 
     const stopResize = () => {
-        console.log("stop");
         document.removeEventListener("mousemove", resize);
     };
 
     resizer.addEventListener("mousedown", () => {
-        console.log("down");
         document.addEventListener("mousemove", resize);
         document.addEventListener("mouseup", stopResize);
     });
