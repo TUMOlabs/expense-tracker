@@ -206,13 +206,14 @@ const init = () => {
     dateFilterButton.addEventListener("click", () => filterTransactionsByDate());
 
     // container resize
+    const body = document.querySelector("body");
     const container = document.querySelector("#app");
     const resizer = document.querySelector("#resizer");
 
     const resize = (event) => {
         const containerRect = container.getBoundingClientRect();
         const relativeY = containerRect.bottom - event.clientY;
-        if (relativeY < containerRect.bottom * 0.4) {
+        if (relativeY < containerRect.bottom * 0.4 && relativeY > 0) {
             container.style.gridTemplateRows = `max-content 1fr max-content minmax(10rem, ${relativeY}px)`;
         }
     };
