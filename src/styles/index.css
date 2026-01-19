@@ -87,9 +87,9 @@ main {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-rows: max-content 1fr max-content max-content;
-    /* grid-template-rows: max-content 1fr max-content; */
+    grid-template-rows: max-content 1fr max-content minmax(10rem, max-content);
     grid-template-columns: 1fr max-content;
+    padding-bottom: 0.5rem;
 }
 
 article {
@@ -115,7 +115,7 @@ aside {
     grid-row-end: 3;
     grid-column-start: 2;
     grid-column-end: 3;
-    margin: 0.5rem;
+    margin: 0.5rem 0.5rem 0 0.5rem;
 }
 
 header {

@@ -212,7 +212,9 @@ const init = () => {
     const resize = (event) => {
         const containerRect = container.getBoundingClientRect();
         const relativeY = containerRect.bottom - event.clientY;
-        container.style.gridTemplateRows = `max-content 1fr max-content ${relativeY}px`;
+        if (relativeY < containerRect.bottom * 0.4) {
+            container.style.gridTemplateRows = `max-content 1fr max-content minmax(10rem, ${relativeY}px)`;
+        }
     };
 
     const stopResize = () => {
